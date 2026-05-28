@@ -16,7 +16,7 @@ import com.ai.chat.models.AppUser;
 import com.ai.chat.models.ChatMessage;
 import com.ai.chat.repository.ChatRepository;
 import com.ai.chat.repository.UserRepository;
-import com.ai.chat.services.SarvamAiService;
+import com.ai.chat.services.GeminiAiService;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -26,7 +26,7 @@ public class ChatController {
 	@Autowired
 	private UserRepository user_repo;
 	@Autowired
-	private SarvamAiService sarvamAiService;
+	private GeminiAiService geminiAiService;
 	
 	@PostMapping("/response")
 	public ChatResponse chat(@RequestBody ChatRequest request, Principal principal) {
@@ -39,7 +39,7 @@ public class ChatController {
 		userMsg.setUser(user);
 		chatrepo.save(userMsg);
 		
-		String ai_reply = sarvamAiService.askSarvam(history, request.getMessage());
+		String ai_reply = geminiAiService.askGemini(history, request.getMessage());
 		ChatMessage aiMsg = new ChatMessage();
 		aiMsg.setRole("assistant");
 		aiMsg.setContent(ai_reply);
